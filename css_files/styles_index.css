@@ -1,0 +1,245 @@
+/* ================= PRELOADER ================= */
+.loader-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
+}
+.loader {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  transform-origin: center;
+  animation: rollIn 1.5s cubic-bezier(0.25, 1.25, 0.5, 1) forwards;
+}
+.loader img {
+  width: auto;
+  max-height: 100%;
+  border-radius: 50%;
+  display: block;
+  padding: 2px;
+}
+
+/* Dismiss (X) Button */
+.loader-dismiss {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  width: 36px;
+  height: 36px;
+  color: white;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.loader-dismiss.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ================= HEADING BAR ================= */
+.heading_bar {
+  background-color: #000000;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+  z-index: 1;
+  overflow: visible; /* Allows the gear to "spill" out of the container */
+}
+.logoname {
+  position: absolute;
+  /* Adjust these values to place it exactly where you want it */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 15%);
+  
+  /* Higher z-index ensures it sits on top of the gear */
+  z-index: 2; 
+  
+  /* Optional: prevent the image from being clicked through if needed */
+  pointer-events: none; 
+}
+
+/* 1. The wrapper manages positioning and fixed height */
+.gear-wrapper {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  
+  /* X: -50% centers it horizontally | Y: 50% pushes it down by half its height */
+  transform: translate(-50%, 40%);
+  
+  height: 800px; /* Fixed height requested */
+  width: auto;   /* Width scales proportionally to the height */
+  z-index: 1;
+}
+
+/* 2. The inner element handles the rotation only */
+.autorotate {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  animation: AutoRotateAnimation linear;
+  animation-timeline: view();
+}
+
+@keyframes AutoRotateAnimation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+
+
+/* ================= SPONSORS SECTION ================= */
+.sponsors {
+  position: relative;
+  padding: 60px 20px;
+  color: #ffffff;
+  background-size: cover;
+  background-position: center;
+}
+
+.sponsors::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 97, 3,0.7); 
+  z-index: 0;
+}
+
+.sponsors .content-row {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sponsors .sponsor-logo,
+.sponsors .text-content {
+  flex: 1 1 0;
+  width: 50%;
+}
+
+.sponsors .text-content {
+  color: #ffffff;
+  font-size: 1.1em;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.sponsors .text-content h2 {
+  color: #ffffff;
+  margin-top: 0;
+}
+
+/* --- LOGO GRID LOGIC --- */
+
+.logo-parent {
+  display: flex;
+  flex-direction: column;
+  gap: 50px; /* Space between the rows of containers */
+  padding: 10px;
+  width: 100%;
+}
+
+.logo-container {
+  display: grid;
+  /* This forces exactly two columns of equal width */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  width: 100%;
+}
+
+/* Special Case: If a container has 3 items, make the 3rd one span both columns or stay in grid */
+/* If you prefer the 3rd item to just start a new row of 2, the grid handles that automatically */
+
+.sponser-logo-box {
+  aspect-ratio: 2 / 1;
+  width: 100%;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.sponser-logo-box img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+
+.sponsors .nav-exec ul {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0;
+  margin-top: 20px;
+  list-style: none;
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+  /* Stack the row into a column */
+  .sponsors .content-row {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* Make text full width and centered */
+  .sponsors .text-content {
+    width: 100%;
+    text-align: center;
+    flex: none;
+    max-width: 500px;
+  }
+
+  /* Center the button/nav list inside the text-content */
+  .sponsors .nav-exec ul {
+    justify-content: center;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Constraint on the logo section width */
+  .sponsors .sponsor-logo {
+    width: 100%;
+    max-width: 500px; /* Limits the grid width so boxes aren't huge */
+    margin: 0 auto; /* Centers the 500px block */
+    flex: none;
+  }
+}
+
+/* Optional: Extra small mobile adjustment */
+@media (max-width: 480px) {
+  .logo-container {
+    gap: 10px; /* Tighter spacing for very small screens */
+  }
+
+  .sponsors {
+    padding: 40px 15px; /* Slightly less padding on small phones */
+  }
+}
+

@@ -1,0 +1,84 @@
+/* ================= MAHI (about/mission) ================= */
+.mahi {
+    position: relative;
+    padding: 60px 30px;
+    color: #000;
+    background-size: cover;
+    background-position: center;
+    max-width: 1200px;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+.mahi .content-row {
+    display: flex; 
+    gap: 60px; 
+    align-items: center; 
+    position: relative; 
+    z-index: 1; 
+}
+
+/* 50/50 Split */
+.mahi .content-row img, 
+.mahi .text-content {
+    flex: 1 1 0;
+    width: 50%; 
+}
+
+.mahi .content-row img {
+    height: auto; 
+    max-height: 500px;
+    border-radius: 2px; 
+    object-fit: cover;
+}
+
+.mahi .text-content {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    text-align: left;
+}
+
+/* Button Navigation - Desktop (Left Aligned) */
+.mahi .nav-exec ul {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0;
+    margin-top: 20px;
+    list-style: none;
+}
+.mahi-alt{
+  color: white;
+}
+.mahi-alt::before { 
+  content: ""; 
+  position: absolute; 
+  inset: 0; 
+  background: rgba(60,117,184,0.75); 
+  border-radius: 10px;
+  z-index: 0; 
+}
+
+/* Tablet & Mobile Adjustments */
+@media (max-width: 1024px) {
+    .mahi .content-row { 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; /* Centers the text content */
+    }
+    
+    .mahi .content-row img, 
+    .mahi .text-content { 
+      max-width: 500px;
+        width: 100%; 
+        flex: none; 
+    }
+
+    .mahi .text-content {
+        text-align: center;
+    }
+
+    /* Centers the button in stacked mode */
+    .mahi .nav-exec ul {
+        justify-content: center;
+    }
+}

@@ -1,0 +1,105 @@
+/* ================= WHAT WE DO ================= */
+#what-we-do {
+  position: relative;
+  z-index: 2; /* Sits on top of the heading_bar */
+  background-color: #ffffff; /* Must be solid to cover the bottom of the gear */
+  text-align: center;
+}
+
+.layer {
+  /* Removed z-index: 10 here as it's redundant if the container is z-index: 2 */
+  padding: 30px;
+}
+
+.wwd-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ... rest of your existing wwd-card styles ... */
+
+.wwd-card {
+  flex: 1;
+  text-decoration: none;
+  min-width: 0;
+  position: relative; /* Essential: keeps the overlay inside the card */
+  display: block;
+}
+
+/* 0.7 Transparent Overlay Logic */
+.wwd-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 97, 3,0.7); /* Your requested transparency */
+  z-index: 1;                     /* Above the image */
+  pointer-events: none;           /* Allows clicks to pass through to the link */
+  transition: background 0.3s ease;
+  border-radius: 2px;             /* Matches the figure corners */
+}
+
+.wwd-card figure {
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #000;
+  aspect-ratio: 1 / 1; 
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.wwd-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* Image stays at default z-index (0), below the overlay */
+}
+
+.wwd-card figcaption {
+  position: absolute;
+  
+  top: 50%;
+  left: 50%;
+  
+  transform: translate(-50%, -50%);
+  
+  width: 100%;             /* Ensures text can align center within the box */
+  text-align: center;      /* Horizontal centering for the text itself */
+  margin: 0;
+  white-space: normal;     /* Allows wrapping if the word is too long for the box */
+  
+  color: #fff;
+  font-size: clamp(2rem, 2.5vw, 2rem);
+  font-weight: 800;
+  letter-spacing: 0.2rem;
+  z-index: 2;
+}
+
+.wwd-card:hover::before {
+  background: rgba(0, 97, 3, 0.2);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .wwd-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .wwd-card {
+    width: 100%;
+  }
+
+  .wwd-card figure {
+    aspect-ratio: 25 / 9; /* Sleek banner ratio for mobile */
+  }
+}
