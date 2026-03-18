@@ -60,52 +60,67 @@
   align-items: flex-end;
   position: relative;
   z-index: 1;
-  overflow: visible; /* Allows the gear to "spill" out of the container */
-}
-.logoname {
-  position: absolute;
-  /* Adjust these values to place it exactly where you want it */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 15%);
-  
-  /* Higher z-index ensures it sits on top of the gear */
-  z-index: 2; 
-  
-  /* Optional: prevent the image from being clicked through if needed */
-  pointer-events: none; 
+  overflow: visible; 
 }
 
-/* 1. The wrapper manages positioning and fixed height */
+/* 1. THE LOGO NAME (TOTEM) */
+.logoname {
+  position: absolute;
+  left: 50%;
+  /* CHANGED: Anchor to bottom so it stays pinned to the gear */
+  bottom: 0px; 
+  transform: translateX(-50%);
+  
+  z-index: 2; 
+  pointer-events: none; 
+
+  /* Responsive Sync */
+  width: 90vw;         /* Shrinks immediately with screen width */
+  max-width: 800px;    /* Desktop size cap */
+  height: auto;
+  object-fit: contain;
+}
+
+/* 2. THE GEAR WRAPPER */
 .gear-wrapper {
   position: absolute;
   left: 50%;
   bottom: 0;
-  
-  /* X: -50% centers it horizontally | Y: 50% pushes it down by half its height */
+  /* Keeps the gear half-submerged */
   transform: translate(-50%, 40%);
-  
-  height: 800px; /* Fixed height requested */
-  width: auto;   /* Width scales proportionally to the height */
   z-index: 1;
+
+  /* Responsive Sync */
+  width: 80vw;        /* Shrinks immediately with screen width */
+  max-width: 800px;   /* Desktop size cap */
+  height: auto;
 }
 
-/* 2. The inner element handles the rotation only */
+/* 3. THE GEAR IMAGE */
 .autorotate {
-  height: 100%;
-  width: auto;
+  width: 100%;
+  height: auto;
   object-fit: contain;
   display: block;
   animation: AutoRotateAnimation linear;
   animation-timeline: view();
 }
 
+/* 4. THE FIX FOR NARROW SCREENS */
+@media (max-width: 800px) {
+  .logoname {
+    /* As the gear shrinks, we nudge the logo down to keep the gap tight */
+    bottom: 0%; 
+  }
+  .heading_bar {
+    height: 400px; /* Optional: shrink the black bar area on mobile */
+  }
+}
+
 @keyframes AutoRotateAnimation {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-
-
 
 /* ================= SPONSORS SECTION ================= */
 .sponsors {
