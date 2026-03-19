@@ -1,54 +1,73 @@
-/* ================= PRELOADER ================= */
+/* ================= THE PIXEL-PERFECT PRELOADER ================= */
 .loader-wrapper {
   position: fixed;
   inset: 0;
+  width: 100%;
+  height: 100vh;
+  background: #000;
   z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: black;
-}
-.loader {
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fff;
-  transform-origin: center;
-  animation: rollIn 1.5s cubic-bezier(0.25, 1.25, 0.5, 1) forwards;
-}
-.loader img {
-  width: auto;
-  max-height: 100%;
-  border-radius: 50%;
-  display: block;
-  padding: 2px;
+  /* We allow overflow so the gear can sit 40% 'below' the 600px line */
+  overflow: hidden; 
 }
 
-/* Dismiss (X) Button */
-.loader-dismiss {
+.loader-inner {
+  position: relative;
+  width: 100%;
+  height: 600px; /* MATCHES .heading_bar exactly */
+  background-color: #000;
+  /* CRITICAL: Ensure this matches the alignment of your header */
+  margin: 0;
+  padding: 0;
+}
+
+/* 1. THE LOGO NAME - FIXED AT BOTTOM */
+.loader-inner .logoname {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 10000;
-  width: 36px;
-  height: 36px;
-  color: white;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+  left: 50%;
+  bottom: 0px; 
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 90vw;
+  max-width: 800px;
+  height: auto;
 }
 
-.loader-dismiss.show {
-  opacity: 1;
-  pointer-events: auto;
+/* 2. THE GEAR WRAPPER - EXACT SAME TRANSFORM */
+.loader-inner .gear-wrapper {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  /* This must be identical to your .gear-wrapper in the main CSS */
+  transform: translate(-50%, 35%); 
+  z-index: 1;
+  width: 80vw;
+  max-width: 800px;
+}
+
+.loader-spin {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform-origin: center;
+  /* Forcing a settle at 0deg */
+  animation: introRotate 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes introRotate {
+  from { transform: rotate(-120deg); }
+  to { transform: rotate(0deg); }
+}
+
+/* 3. SYNC MOBILE HEIGHTS */
+@media (max-width: 800px) {
+  .loader-inner {
+    height: 400px; /* MATCHES your @media .heading_bar */
+  }
+}
+
+/* 4. PREVENT LAYOUT SHIFT */
+html {
+  overflow-y: scroll; /* Stops the 'left-shift' when scrollbar appears */
 }
 
 /* ================= HEADING BAR ================= */
@@ -87,7 +106,7 @@
   left: 50%;
   bottom: 0;
   /* Keeps the gear half-submerged */
-  transform: translate(-50%, 40%);
+  transform: translate(-50%, 35%);
   z-index: 1;
 
   /* Responsive Sync */

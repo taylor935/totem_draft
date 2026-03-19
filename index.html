@@ -27,8 +27,15 @@
   </header>
   <main class="main-container">
     <div class="loader-wrapper">
-      <div class="loader">
-        <img src="Images/TOTEM_Logo_comp.png" alt="" class="logo-preload" />
+      <div class="loader-inner">
+        <div class="gear-wrapper">
+          <img
+            src="Images/Screenshot 2026-03-08 at 21.30.43.png"
+            class="loader-spin"
+            alt="Gear"
+          />
+        </div>
+        <img src="Images/totem_name.png" alt="" class="logoname" />
       </div>
     </div>
 
@@ -217,27 +224,60 @@
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script>
     $(window).on("load", function () {
-      // Normal fade-out after full load
+      /**
+       * 1. PRE-LOAD STATE
+       */
+      $(".heading_bar .autorotate").css({
+        opacity: "0",
+        transition: "none",
+      });
+
+      /**
+       * 2. NATURAL LOAD COMPLETION
+       */
       setTimeout(function () {
-        $(".loader-wrapper").fadeOut(600);
-      }, 2000);
+        // Reveal the real gear behind the black screen instantly
+        $(".heading_bar .autorotate").css("opacity", "1");
+
+        // Fade the overlay out
+        $(".loader-wrapper").animate({ opacity: 0 }, 600, function () {
+          $(this).remove(); // Cleanup
+        });
+      }, 2200);
     });
 
-    // Create the dismiss button after page starts loading
     $(document).ready(function () {
-      // Add the X button to the loader
+      /**
+       * 3. THE DISMISS BUTTON (X)
+       */
+      // Add the button to the HTML dynamically
       $(".loader-wrapper").append('<div class="loader-dismiss">×</div>');
 
-      // If the page is still not fully loaded after 3 sec, show the button
+      // Logic to show the 'X' only if loading takes > 4 seconds
       setTimeout(function () {
-        if (!$("body").hasClass("page-loaded")) {
+        if ($(".loader-wrapper").length > 0) {
           $(".loader-dismiss").addClass("show");
         }
-      }, 3000);
+      }, 4000);
 
-      // When the X is clicked, hide the loader immediately
+      /**
+       * 4. DISMISS CLICK HANDLER
+       * This is what happens when the user clicks the 'X'
+       */
       $(document).on("click", ".loader-dismiss", function () {
-        $(".loader-wrapper").fadeOut(400);
+        // Stop any current animations on the loader
+        $(".loader-wrapper").stop();
+
+        // INSTANT SWAP: Make sure the main page gear is visible
+        $(".heading_bar .autorotate").css("opacity", "1");
+
+        // Fade out the loader quickly
+        $(".loader-wrapper").fadeOut(400, function () {
+          $(this).remove();
+          // Force a scroll reset to top to ensure the gear
+          // is at 0 degrees when they 'enter' the site
+          window.scrollTo(0, 0);
+        });
       });
     });
   </script>
